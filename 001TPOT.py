@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 
 
 # input data
-data_input=pd.read_csv('D:/2022-Paper-LC-Alloy/20230423-alloy-HER-comp.csv', sep=',')
+data_input=pd.read_csv('....csv', sep=',')
 
 labels=data_input['Overpotential (mV)']
 features=data_input.drop('Overpotential (mV)', axis=1).drop('DOI', axis=1).drop('Composition', axis=1)
@@ -22,4 +22,4 @@ tpot = TPOTRegressor(generations=100, random_state=0,verbosity=2,template='Regre
 
 tpot.fit(X_train, y_train)
 print(tpot.score(X_test, y_test))
-tpot.export('ML_Alloy_Carbon_TPOT_pipeline_comp2.py')
+tpot.export('....py')
