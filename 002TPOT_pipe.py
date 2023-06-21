@@ -15,13 +15,10 @@ from sklearn.model_selection import cross_val_score,KFold
 from xgboost import XGBRegressor
 
 # input data
-data_input=pd.read_csv('D:/2022-Paper-LC-Alloy/20230423-alloy-HER-comp.csv', sep=',')
-data_input2=pd.read_csv('D:/2022-Paper-LC-Alloy/thiswork.csv', sep=',')
+data_input=pd.read_csv('....csv', sep=',')
 
 labels=data_input['Overpotential (mV)']
 features=data_input.drop('Overpotential (mV)', axis=1).drop('DOI', axis=1).drop('Composition', axis=1)
-X_thiswork=data_input2.drop('Overpotential (mV)', axis=1).drop('Composition', axis=1)
-y_thiswork=data_input2['Overpotential (mV)']
 
 X_train,X_test,y_train,y_test=train_test_split(features, labels, test_size=0.2, random_state=42) #42
 
@@ -47,19 +44,14 @@ print("Mean score of KFold cross validation:{:.3f}".format(scores.mean()))
 
 y_pred = exported_pipeline.predict(X_test)
 y_pred_2 = exported_pipeline.predict(X_train)
-y_thiswork_pred= exported_pipeline.predict(X_thiswork)
 
 result1=pd.DataFrame(columns=['y_test','y_pred'])
 result2=pd.DataFrame(columns=['y_train','y_train_pred'])
-result_thiswork=pd.DataFrame(columns=['y_thiswork','y_thiswork_pred'])
 
 result1['y_test']=y_test
 result1['y_pred']=y_pred
 result2['y_train']=y_train
 result2['y_train_pred']=y_pred_2
-result_thiswork['y_thiswork']=y_thiswork
-result_thiswork['y_thiswork_pred']=y_thiswork_pred
-
 
 print("Train Accuracy r2: %.4g" % sk.metrics.r2_score(y_train, y_pred_2))
 print("Test Accuracy r2: %.4g" % sk.metrics.r2_score(y_test, y_pred))
@@ -67,13 +59,3 @@ print("Train Accuracy MAE: %.4g" % sk.metrics.mean_absolute_error(y_train, y_pre
 print("Test Accuracy MAE: %.4g" % sk.metrics.mean_absolute_error(y_test, y_pred))
 print("Train Accuracy mse: %.4g" % sk.metrics.mean_squared_error(y_train, y_pred_2))
 print("Test Accuracy mse: %.4g" % sk.metrics.mean_squared_error(y_test, y_pred))
-
-out_path1='D:/2022-Paper-LC-Alloy/result1.csv'
-out_path2='D:/2022-Paper-LC-Alloy/result2.csv'
-out_path3='D:/2022-Paper-LC-Alloy/thiswork_pred.csv'
-
-result1.to_csv(out_path1,sep=',',index=False, header=False)
-result2.to_csv(out_path2,sep=',',index=False, header=False)
-result_thiswork.to_csv(out_path3,sep=',',index=False, header=False)
-
-print('done')
